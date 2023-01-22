@@ -1,6 +1,8 @@
 import styled from 'styled-components';
-import { selectActiveCity, STATUS } from '../redux/features/app/appSlice';
+import { selectActiveCity } from '../redux/features/app/appSlice';
 import { useAppSelector } from '../redux/hooks';
+import moment from 'moment';
+import { getCoverByCity, mapWeatherToBackground } from '../utils/helpers';
 
 const Wrapper = styled.div`
   position: relative;
@@ -8,22 +10,26 @@ const Wrapper = styled.div`
   height: 440px;
 `;
 
-const SideWidget = styled.div`
+const SideWidget = styled.div<{ bgGradient?: string }>`
   position: absolute;
   top: 0;
   bottom: 0;
   margin: auto 0;
-  left: -50px;
+  left: -16px;
   height: 280px;
   width: 140px;
   border-radius: 0 25px 25px 0;
-  background: linear-gradient(180deg, #5374E7 0%, #77B9F5 100%);
+  background: ${({ bgGradient }) => bgGradient};
   box-shadow: 5px 10px 20px 0 rgba(0,0,0,0.17);
   display: flex;
   flex-direction: column;
   text-align: center;
   justify-content: center;
   color: #fff;
+
+  @media (min-width: 768px) {
+    left: -50px;
+  }
 `;
 
 const IconWrapper = styled.div`
@@ -37,7 +43,7 @@ const Temperature = styled.p`
   font-weight: bold;
 `
 
-const CardWrapper = styled.div`
+const CardWrapper = styled.div<{ img?: string }>`
   height: 440px;
   border-radius: 25px;
   overflow: hidden;
@@ -46,6 +52,11 @@ const CardWrapper = styled.div`
   align-items: center;
   padding-left: 140px;
   box-shadow: 5px 10px 20px 0 rgba(0,0,0,0.17);
+  background-image:
+    linear-gradient(120deg, rgba(255,255,255,0.35), rgba(255,255,255,0)),
+    url(${({img}) => img});
+  background-position: center;
+  background-size: cover;
 `;
 
 const CardContent = styled.div`
@@ -82,25 +93,27 @@ const WeatherText = styled.p`
 
 export const CityWeatherCover = () => {
   const activeCity = useAppSelector(selectActiveCity);
-  // const isDataLoading = activeCity.status === STATUS.LOADING;
+  const day = moment().tz(activeCity.data?.timezone ?? "Europe/Rome").format("dddd Do, MMMM");
+  const bgImg = getCoverByCity(activeCity.preview.name);
+  const bgGradient = mapWeatherToBackground(activeCity.data?.current?.weather[0]?.id);
 
   return (
     <Wrapper>
-      <SideWidget>
+      <SideWidget bgGradient={bgGradient}>
         <Temperature>
-          {activeCity.data?.current?.temp?.toFixed(0)}°
+          {activeCity.data?.current?.temp < 1 && activeCity.data?.current?.temp > -1 ? "0" : activeCity.data?.current?.temp?.toFixed(0)}°
         </Temperature>
           <IconWrapper>
             {!!activeCity.data && <img src={`https://openweathermap.org/img/wn/${activeCity.data?.current?.weather[0]?.icon}@4x.png`} alt={activeCity.data?.current?.weather[0]?.description} />}
           </IconWrapper>
       </SideWidget>
-      <CardWrapper>
+      <CardWrapper img={bgImg}>
         <CardContent>
           <CardTitle>
             {activeCity.preview?.name}
           </CardTitle>
           <Date>
-            Friday 18, september
+            {day}
           </Date>
           <WeatherText>
             {activeCity.data?.current?.weather[0]?.main}

@@ -84,8 +84,7 @@ export const WidgetWeekWeather = () => {
           },
         }}
         grabCursor
-        onSlideChange={() => console.log('slide change')}
-        onSwiper={(swiper) => console.log(swiper)}
+        slidesPerGroup={3}
         pagination={{
           clickable: true
         }}

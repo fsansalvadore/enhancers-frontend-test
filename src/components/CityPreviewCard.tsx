@@ -1,13 +1,16 @@
+import 'moment-timezone';
+import moment from 'moment';
 import { connect } from 'react-redux'
 import styled from 'styled-components';
 import { activeCitySelected } from '../redux/features/app/appSlice';
 import { useAppDispatch } from '../redux/hooks';
+import { mapWeatherToBackground } from '../utils/helpers';
 
-const CityCard = styled.button`
+const CityCard = styled.button<{ bgGradient: string }>`
   height: 140px;
   width: 100%;
   border-radius: 25px;
-  background: linear-gradient(120deg, #011354 0%, #5B9FE3 100%);
+  background: ${({ bgGradient }) => bgGradient};
   box-shadow: 5px 10px 20px 0 rgba(0,0,0,0.17);
   padding: 20px;
   display: flex;
@@ -21,7 +24,7 @@ const InfoWrapper = styled.div`
   flex-direction: column;
   text-align: left;
   justify-content: space-between;
-  width: 35%;
+  width: 40%;
 `
 
 const CardTitle = styled.p`
@@ -63,6 +66,10 @@ const Temperature = styled.p`
 
 export const CityPreviewCard = ({city}: {city: any}) => {
   const dispatch = useAppDispatch();
+  const localDate = moment().tz(city.timezone).format("dddd Do,");
+  const localMonth = moment().tz(city.timezone).format("MMMM");
+  const localTime = moment().tz(city.timezone).format("h:mm a");
+  const bgGradient = mapWeatherToBackground(city.current?.weather[0]?.id);
 
   const handleCitySelection = () => {
     dispatch(
@@ -71,28 +78,28 @@ export const CityPreviewCard = ({city}: {city: any}) => {
   }
 
   return (
-    <CityCard onClick={handleCitySelection}>
+    <CityCard onClick={handleCitySelection} bgGradient={bgGradient}>
       <InfoWrapper>
         <CardTitle>
           {city.name}
         </CardTitle>
         <LocalDate>
           <div>
-            {city.localDate},
+            {localDate}
           </div>
           <div>
-            {city.localMonth}
+            {localMonth}
           </div>
         </LocalDate>
         <LocalTime>
-          {city.localTime}
+          {localTime}
         </LocalTime>
       </InfoWrapper>
       <ImageWrapper>
         <img src={`https://openweathermap.org/img/wn/${city.current?.weather[0]?.icon}@4x.png`} alt={city.current?.weather[0]?.description} />
       </ImageWrapper>
       <TempWrapper>
-        <Temperature>{city.current?.temp?.toFixed(0)}°</Temperature>
+        <Temperature>{city.current?.temp < 1 && city.current?.temp > -1 ? "0" : city.current?.temp?.toFixed(0)}°</Temperature>
       </TempWrapper>
     </CityCard>
   )
