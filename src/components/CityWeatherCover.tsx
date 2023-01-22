@@ -19,7 +19,6 @@ const SideWidget = styled.div`
   border-radius: 0 25px 25px 0;
   background: linear-gradient(180deg, #5374E7 0%, #77B9F5 100%);
   box-shadow: 5px 10px 20px 0 rgba(0,0,0,0.17);
-  gap: 10px;
   display: flex;
   flex-direction: column;
   text-align: center;
@@ -83,7 +82,7 @@ const WeatherText = styled.p`
 
 export const CityWeatherCover = () => {
   const activeCity = useAppSelector(selectActiveCity);
-  const isDataLoading = activeCity.status === STATUS.LOADING;
+  // const isDataLoading = activeCity.status === STATUS.LOADING;
 
   return (
     <Wrapper>
@@ -92,7 +91,7 @@ export const CityWeatherCover = () => {
           {activeCity.data?.current?.temp?.toFixed(0)}°
         </Temperature>
           <IconWrapper>
-            <img src={`https://openweathermap.org/img/wn/${activeCity.data?.current?.weather[0]?.icon}@4x.png`} alt={activeCity.data?.current?.weather[0]?.description} />
+            {!!activeCity.data && <img src={`https://openweathermap.org/img/wn/${activeCity.data?.current?.weather[0]?.icon}@4x.png`} alt={activeCity.data?.current?.weather[0]?.description} />}
           </IconWrapper>
       </SideWidget>
       <CardWrapper>

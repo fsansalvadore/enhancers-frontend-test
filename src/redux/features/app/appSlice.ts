@@ -58,6 +58,7 @@ export interface AppState {
     preview: SavedCity;
     status: StatusType;
     data: any;
+    monthly: any;
   };
 }
 
@@ -75,6 +76,7 @@ const initialState: AppState = {
     preview: SAVED_CITIES[SAVED_CITIES_NAMES.TURIN],
     status: STATUS.IDLE,
     data: null,
+    monthly: null,
   }
 };
 
@@ -96,10 +98,18 @@ const getCityPreview = async (city: SavedCity) => {
 export const fetchActiveCityData = createAsyncThunk(
   'app/fetchCity',
   async (city: SavedCity) => {
-    const activeCity = await axios.get(`https://api.openweathermap.org/data/3.0/onecall?lat=${city.coord.lat}&lon=${city.coord.lon}&exclude={part}&units=metric&appid=${process.env.REACT_APP_OPENWEATHER_API}`)
+    const activeCity = await axios.get(`https://api.openweathermap.org/data/3.0/onecall?lat=${city.coord.lat}&lon=${city.coord.lon}&units=metric&appid=${process.env.REACT_APP_OPENWEATHER_API}`)
     return activeCity.data;
   }
 );
+
+// export const fetchActiveCityMonthlyData = createAsyncThunk(
+//   'app/fetchCityMonthly',
+//   async (city: SavedCity) => {
+//     const activeCity = await axios.get(`https://pro.openweathermap.org/data/2.5/forecast/climate?lat=${city.coord.lat}&lon=${city.coord.lon}&units=metric&appid=${process.env.REACT_APP_OPENWEATHER_API}`)
+//     return activeCity.data;
+//   }
+// );
 
 export const appSlice = createSlice({
   name: 'app',
@@ -133,7 +143,17 @@ export const appSlice = createSlice({
       })
       .addCase(fetchActiveCityData.rejected, (state) => {
         state.activeCity.status = STATUS.FAILED;
-      });
+      })
+      // .addCase(fetchActiveCityMonthlyData.pending, (state) => {
+      //   state.activeCity.status = STATUS.LOADING;
+      // })
+      // .addCase(fetchActiveCityMonthlyData.fulfilled, (state, action) => {
+      //   state.activeCity.status = STATUS.IDLE;
+      //   state.activeCity.monthly = action.payload;
+      // })
+      // .addCase(fetchActiveCityMonthlyData.rejected, (state) => {
+      //   state.activeCity.status = STATUS.FAILED;
+      // });
   },
 });
 
@@ -141,6 +161,7 @@ export const { activeCitySelected, addCityToResults } = appSlice.actions;
 
 // Selectors
 export const selectActiveCity = (state: RootState) => state.app.activeCity;
+// export const selectActiveCityMonthly = (state: RootState) => state.app.activeCity;
 export const selectCities = (state: RootState) => state.app.cities;
 export const selectSavedCities = (state: RootState) => state.app.savedCities;
 
