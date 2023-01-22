@@ -1,9 +1,10 @@
 
 import './App.css';
 import WeatherPage from './pages/WeatherPage';
-import { fetchActiveCityData, getCitiesPreviews, SavedCity, selectActiveCity, selectSavedCities } from './redux/features/app/appSlice';
+import { fetchActiveCityData, getCitiesPreviews, selectActiveCity, selectSavedCities } from './redux/features/app/appSlice';
 import { useAppDispatch, useAppSelector } from './redux/hooks';
 import { useEffect } from 'react';
+import { SavedCity } from './utils/types';
 
 function App() {
   const savedCities = useAppSelector(selectSavedCities);

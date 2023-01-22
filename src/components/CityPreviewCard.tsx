@@ -66,7 +66,7 @@ const Temperature = styled.p`
 
 export const CityPreviewCard = ({city}: {city: any}) => {
   const dispatch = useAppDispatch();
-  const localDate = moment().tz(city.timezone).format("dddd Do,");
+  const localDate = moment().tz(city.timezone).format("dddd D,");
   const localMonth = moment().tz(city.timezone).format("MMMM");
   const localTime = moment().tz(city.timezone).format("h:mm a");
   const bgGradient = mapWeatherToBackground(city.current?.weather[0]?.id);

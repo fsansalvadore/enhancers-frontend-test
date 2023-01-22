@@ -8,7 +8,7 @@ import { selectActiveCity } from '../redux/features/app/appSlice';
 
 const Wrapper = styled.div`
   height: 100%;
-  width: 100;
+  width: 100%;
   position: relative;
   overflow: hidden;
 
@@ -32,7 +32,7 @@ const Wrapper = styled.div`
   }
 
   .swiper-pagination {
-    bottom: 15px;
+    bottom: 20px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -78,19 +78,20 @@ export const WidgetWeekWeather = () => {
         modules={[Pagination]}
         spaceBetween={30}
         slidesPerView={2}
+        slidesPerGroup={2}
+        grabCursor
         breakpoints={{
           620: {
             slidesPerView: 3,
+            slidesPerGroup: 3
           },
         }}
-        grabCursor
-        slidesPerGroup={3}
         pagination={{
           clickable: true
         }}
       >
         {
-          days.slice(1,8).map((day: any) => {
+          days?.slice(1,8)?.map((day: any) => {
             const weekDay = new Date(day.dt * 1000).toLocaleDateString("en", { weekday: 'long' });
             const temperature = day.temp?.day?.toFixed(0);
             const icon = day.weather[0]?.icon;
@@ -112,7 +113,6 @@ export const WidgetWeekWeather = () => {
             </SwiperSlide>
           )})
         }
-        
       </Swiper>
     </Wrapper>
   );

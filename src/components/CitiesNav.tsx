@@ -3,10 +3,11 @@ import styled from 'styled-components';
 import tw from 'twin.macro'
 import {
   selectActiveCity,
-  selectCities,
-  STATUS
+  selectCities
 } from '../redux/features/app/appSlice';
 import { useAppSelector } from '../redux/hooks';
+import { STATUS } from '../utils/constants';
+import { getOtherCitiesToShow } from '../utils/helpers';
 import { CityPreviewCard } from './CityPreviewCard';
 
 const Wrapper = styled.div`
@@ -34,41 +35,11 @@ export const CitiesNav = () => {
   const loadedCities = useAppSelector(selectCities);
   const activeCity = useAppSelector(selectActiveCity);
   const areCitiesLoading = loadedCities.status === STATUS.LOADING;
+  const citiesToShow = getOtherCitiesToShow(loadedCities, activeCity);
   
   const handleAddCity = () => {
     alert("Aggiungi nuova città");
   }
-
-  // const cities = [
-  //   {
-  //     name: SAVED_CITIES.TURIN,
-  //     localTime: "2:38 p.m.",
-  //     localDate: "Friday 18",
-  //     localMonth: "september",
-  //     temperature: "22",
-  //   },
-  //   {
-  //     name: SAVED_CITIES.LONDON,
-  //     localTime: "2:38 p.m.",
-  //     localDate: "Friday 18",
-  //     localMonth: "september",
-  //     temperature: "18",
-  //   },
-  //   {
-  //     name: SAVED_CITIES.ROME,
-  //     localTime: "2:38 p.m.",
-  //     localDate: "Friday 18",
-  //     localMonth: "september",
-  //     temperature: "20",
-  //   },
-  // ]
-
-  const citiesToShow = loadedCities.data?.filter((city) => {
-    const isLonEqual = city?.lon === activeCity.data?.lon;
-    const isLatEqual = city?.lat === activeCity.data?.lat;
-
-    return !isLonEqual && !isLatEqual;
-  }).slice(0,2)
 
   return (
     <Wrapper>
@@ -81,7 +52,7 @@ export const CitiesNav = () => {
         {
           areCitiesLoading
           ? <div>empty state</div>
-          : citiesToShow?.map(city => <CityPreviewCard key={city.name} city={city} />)
+          : citiesToShow?.map((city: any) => <CityPreviewCard key={city.name} city={city} />)
         }
       </CardsWrapper>
     </Wrapper>

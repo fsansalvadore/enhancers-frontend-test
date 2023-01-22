@@ -1,4 +1,23 @@
-import { SAVED_CITIES_NAMES } from "../redux/features/app/appSlice";
+import { SAVED_CITIES_NAMES, WEATHER_GRADIENTS } from "./constants";
+import { SavedCity } from "./types";
+import axios from 'axios';
+
+export const getOtherCitiesToShow = (cities: any, activeCity: any) => {
+  const citiesToShow = cities.data?.filter((city: any) => {
+    const isLonEqual = city?.lon === activeCity.data?.lon;
+    const isLatEqual = city?.lat === activeCity.data?.lat;
+  
+    return !isLonEqual && !isLatEqual;
+  })?.slice(0,2);
+
+  return citiesToShow;
+}
+
+export const getCityPreviewData = async (city: SavedCity) => {
+  const cityData = await axios.get(`https://api.openweathermap.org/data/3.0/onecall?lat=${city.coord.lat}&lon=${city.coord.lon}&exclude=minutely,daily,hourly,alerts&units=metric&appid=${process.env.REACT_APP_OPENWEATHER_API}`)
+
+  return {...city, ...cityData.data}
+}
 
 export const getCoverByCity = (name: SAVED_CITIES_NAMES) => {
   switch (name) {
@@ -9,16 +28,6 @@ export const getCoverByCity = (name: SAVED_CITIES_NAMES) => {
     case SAVED_CITIES_NAMES.ROME:
       return "./images/cover-Rome.jpeg";
   }
-}
-
-export const WEATHER_GRADIENTS = {
-  THUNDERSTORM: "radial-gradient(circle at left top, #1b2549 0%, #14346b 100%)",
-  DRIZZLE: "radial-gradient(circle at left top, #5374E7 0%, #77B9F5 100%)",
-  RAIN: "radial-gradient(circle at left top, #616161 0%, #9BC5C3 100%)",
-  SNOW: "radial-gradient(circle at left top, #274046 0%, #E6DADA 100%)",
-  ATMOSPHERE: "radial-gradient(circle at left top, #5374E7 0%, #77B9F5 100%)",
-  CLEAR: "radial-gradient(circle at left top, #5374E7 0%, #77B9F5 100%)",
-  CLOUDS: "radial-gradient(circle at left top, #464C64 0%, #99A9B9 100%)",
 }
 
 export const mapWeatherToBackground = (id: number) => {

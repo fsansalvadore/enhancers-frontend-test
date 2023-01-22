@@ -1,13 +1,20 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { selectActiveCity } from '../redux/features/app/appSlice';
 import { useAppSelector } from '../redux/hooks';
 import moment from 'moment';
 import { getCoverByCity, mapWeatherToBackground } from '../utils/helpers';
+import { STATUS } from '../utils/constants';
 
-const Wrapper = styled.div`
+const Wrapper = styled.div<{ img?: string; isLoading?: boolean }>`
   position: relative;
   width: 100%;
   height: 440px;
+  opacity: 1;
+  transition: opacity 0.2s ease;
+
+  ${({ isLoading }) => isLoading && css`
+    opacity: 0.5;
+  `}
 `;
 
 const SideWidget = styled.div<{ bgGradient?: string }>`
@@ -93,19 +100,25 @@ const WeatherText = styled.p`
 
 export const CityWeatherCover = () => {
   const activeCity = useAppSelector(selectActiveCity);
-  const day = moment().tz(activeCity.data?.timezone ?? "Europe/Rome").format("dddd Do, MMMM");
+  const isLoading = activeCity.status === STATUS.LOADING;
+  const day = moment().tz(activeCity.data?.timezone ?? "Europe/Rome").format("dddd D, MMMM");
   const bgImg = getCoverByCity(activeCity.preview.name);
-  const bgGradient = mapWeatherToBackground(activeCity.data?.current?.weather[0]?.id);
+  const bgGradient = mapWeatherToBackground(activeCity?.data?.current?.weather[0]?.id);
 
   return (
-    <Wrapper>
+    <Wrapper isLoading={isLoading}>
       <SideWidget bgGradient={bgGradient}>
-        <Temperature>
-          {activeCity.data?.current?.temp < 1 && activeCity.data?.current?.temp > -1 ? "0" : activeCity.data?.current?.temp?.toFixed(0)}°
-        </Temperature>
-          <IconWrapper>
-            {!!activeCity.data && <img src={`https://openweathermap.org/img/wn/${activeCity.data?.current?.weather[0]?.icon}@4x.png`} alt={activeCity.data?.current?.weather[0]?.description} />}
-          </IconWrapper>
+        {
+          !isLoading && (
+          <>
+            <Temperature>
+              {activeCity.data?.current?.temp < 1 && activeCity.data?.current?.temp > -1 ? "0" : activeCity.data?.current?.temp?.toFixed(0)}°
+            </Temperature>
+            <IconWrapper>
+              {!!activeCity.data && <img src={`https://openweathermap.org/img/wn/${activeCity.data?.current?.weather[0]?.icon}@4x.png`} alt={activeCity.data?.current?.weather[0]?.description} />}
+            </IconWrapper>
+          </>
+        )}
       </SideWidget>
       <CardWrapper img={bgImg}>
         <CardContent>

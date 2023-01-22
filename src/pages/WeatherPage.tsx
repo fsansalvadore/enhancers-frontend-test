@@ -14,7 +14,7 @@ import {
 // le linee di codice necessarie per lo styling
 // e si integra perfettamente con styled-components
 const MainWrapper = styled.div`
-  ${tw`w-screen p-4 md:p-12 md:grid md:grid-cols-12 gap-10 md:gap-12`}
+  ${tw`w-screen p-4 flex flex-col md:p-12 md:grid md:grid-cols-12 gap-10 md:gap-12`}
 
   > div:first-of-type {
     ${tw`w-full md:col-span-8`}
@@ -28,7 +28,7 @@ const SelectedCityContainer = tw.div`flex flex-col gap-4 md:gap-12`
 const WidgetsContainer = tw.div`order-first md:order-last flex flex-col gap-4 md:gap-12`
 const SidebarSecondaryWidgets = tw.div`flex flex-col lg:[height:465px] gap-4 md:gap-12`
 const CityWeatherWidgetsWrapper = styled.div`
-  ${tw`relative w-full md:[height:465px] flex flex-col xl:grid xl:grid-cols-8 gap-6 lg:gap-12`}
+  ${tw`relative w-full md:[height:465px] flex flex-col xl:grid xl:grid-cols-8 gap-12`}
 
   > div:first-of-type {
     ${tw`w-full xl:col-span-3`}

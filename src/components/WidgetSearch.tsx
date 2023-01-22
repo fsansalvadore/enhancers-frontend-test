@@ -1,6 +1,6 @@
-import { ChangeEventHandler, FormEvent, useState } from 'react';
+import { FormEvent, useState } from 'react';
 import styled from 'styled-components';
-import { WidgetTitle } from "../styles/components";
+import { WidgetTitle } from "../styles/shared";
 
 const Wrapper = styled.div`
   height: 100%;

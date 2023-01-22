@@ -1,99 +1,15 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { RootState } from '../../store';
 import axios from 'axios';
 
-export enum SAVED_CITIES_NAMES {
-  TURIN = "Turin",
-  LONDON = "London",
-  ROME = "Rome",
-}
-
-export enum STATUS {
-  IDLE = "idle",
-  LOADING = "loading",
-  FAILED = "failed",
-}
-
-export const SAVED_CITIES = {
-  [SAVED_CITIES_NAMES.TURIN]: {
-    name: SAVED_CITIES_NAMES.TURIN,
-    coord: {
-      lat: "45.0677551",
-      lon: "7.6824892",
-    },
-  },
-  [SAVED_CITIES_NAMES.LONDON]: {
-    name: SAVED_CITIES_NAMES.LONDON,
-    coord: {
-      lat: "51.5073219",
-      lon: "-0.1276474",
-    },
-  },
-  [SAVED_CITIES_NAMES.ROME]: {
-    name: SAVED_CITIES_NAMES.ROME,
-    coord: {
-      lat: "41.8933203",
-      lon: "12.4829321",
-    },
-  },
-}
-
-export interface SavedCity {
-  name: SAVED_CITIES_NAMES;
-  coord: {
-    lat: string;
-    lon: string;
-  }
-}
-
-export type StatusType = STATUS;
-
-export interface AppState {
-  savedCities: SavedCity[];
-  cities: {
-    status: StatusType;
-    data: any[] | null;
-  };
-  activeCity: {
-    preview: SavedCity;
-    status: StatusType;
-    data: any;
-    monthly: any;
-  };
-}
-
-const initialState: AppState = {
-  savedCities: [
-    SAVED_CITIES[SAVED_CITIES_NAMES.TURIN],  
-    SAVED_CITIES[SAVED_CITIES_NAMES.LONDON],  
-    SAVED_CITIES[SAVED_CITIES_NAMES.ROME],  
-  ],
-  cities: {
-    status: STATUS.IDLE,
-    data: null,
-  },
-  activeCity: {
-    preview: SAVED_CITIES[SAVED_CITIES_NAMES.TURIN],
-    status: STATUS.IDLE,
-    data: null,
-    monthly: null,
-  }
-};
+import { RootState } from '../../store';
+import { initialState, STATUS } from '../../../utils/constants';
+import { SavedCity } from '../../../utils/types';
+import { getCityPreviewData } from '../../../utils/helpers';
 
 export const getCitiesPreviews = createAsyncThunk(
   'app/getCitiesPreviews',
-  async (savedCities: SavedCity[]) => {
-    const cities = Promise.all(savedCities.map((savedCity) => getCityPreview(savedCity)))
-
-    return cities;
-  }
+  async (savedCities: SavedCity[]) => Promise.all(savedCities.map((savedCity) => getCityPreviewData(savedCity)))
 );
-
-const getCityPreview = async (city: SavedCity) => {
-  const cityData = await axios.get(`https://api.openweathermap.org/data/3.0/onecall?lat=${city.coord.lat}&lon=${city.coord.lon}&exclude=minutely,daily,hourly,alerts&units=metric&appid=${process.env.REACT_APP_OPENWEATHER_API}`)
-
-  return {...city, ...cityData.data}
-}
 
 export const fetchActiveCityData = createAsyncThunk(
   'app/fetchCity',
@@ -102,14 +18,6 @@ export const fetchActiveCityData = createAsyncThunk(
     return activeCity.data;
   }
 );
-
-// export const fetchActiveCityMonthlyData = createAsyncThunk(
-//   'app/fetchCityMonthly',
-//   async (city: SavedCity) => {
-//     const activeCity = await axios.get(`https://pro.openweathermap.org/data/2.5/forecast/climate?lat=${city.coord.lat}&lon=${city.coord.lon}&units=metric&appid=${process.env.REACT_APP_OPENWEATHER_API}`)
-//     return activeCity.data;
-//   }
-// );
 
 export const appSlice = createSlice({
   name: 'app',
@@ -144,16 +52,6 @@ export const appSlice = createSlice({
       .addCase(fetchActiveCityData.rejected, (state) => {
         state.activeCity.status = STATUS.FAILED;
       })
-      // .addCase(fetchActiveCityMonthlyData.pending, (state) => {
-      //   state.activeCity.status = STATUS.LOADING;
-      // })
-      // .addCase(fetchActiveCityMonthlyData.fulfilled, (state, action) => {
-      //   state.activeCity.status = STATUS.IDLE;
-      //   state.activeCity.monthly = action.payload;
-      // })
-      // .addCase(fetchActiveCityMonthlyData.rejected, (state) => {
-      //   state.activeCity.status = STATUS.FAILED;
-      // });
   },
 });
 
@@ -161,7 +59,6 @@ export const { activeCitySelected, addCityToResults } = appSlice.actions;
 
 // Selectors
 export const selectActiveCity = (state: RootState) => state.app.activeCity;
-// export const selectActiveCityMonthly = (state: RootState) => state.app.activeCity;
 export const selectCities = (state: RootState) => state.app.cities;
 export const selectSavedCities = (state: RootState) => state.app.savedCities;
 
