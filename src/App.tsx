@@ -1,58 +1,31 @@
-import React from 'react';
-import logo from './logo.svg';
-import { Counter } from './features/counter/Counter';
+
 import './App.css';
+import WeatherPage from './pages/WeatherPage';
+import { fetchActiveCityData, getCitiesPreviews, SavedCity, selectActiveCity, selectSavedCities } from './redux/features/app/appSlice';
+import { useAppDispatch, useAppSelector } from './redux/hooks';
+import { useEffect } from 'react';
 
 function App() {
+  const savedCities = useAppSelector(selectSavedCities);
+  const activeCity = useAppSelector(selectActiveCity);
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(
+      getCitiesPreviews(savedCities)
+    );
+  }, [dispatch, savedCities])
+
+  useEffect(() => {
+    dispatch(
+      fetchActiveCityData(savedCities.find(city => city.name === activeCity.preview.name) as SavedCity)
+    )
+  }, [dispatch, activeCity.preview, savedCities])
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <Counter />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <span>
-          <span>Learn </span>
-          <a
-            className="App-link"
-            href="https://reactjs.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            React
-          </a>
-          <span>, </span>
-          <a
-            className="App-link"
-            href="https://redux.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Redux
-          </a>
-          <span>, </span>
-          <a
-            className="App-link"
-            href="https://redux-toolkit.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Redux Toolkit
-          </a>
-          ,<span> and </span>
-          <a
-            className="App-link"
-            href="https://react-redux.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            React Redux
-          </a>
-        </span>
-      </header>
-    </div>
+    <WeatherPage />
   );
 }
+
 
 export default App;
