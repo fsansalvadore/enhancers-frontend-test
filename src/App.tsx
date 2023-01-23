@@ -15,10 +15,12 @@ function App() {
   const activeCity = useAppSelector(selectActiveCity);
   const dispatch = useAppDispatch();
 
+  // Fetch cities preview data
   useEffect(() => {
     dispatch(getCitiesPreviews(savedCities));
   }, [dispatch, savedCities]);
 
+  // Fetch active city data
   useEffect(() => {
     dispatch(
       fetchActiveCityData(
@@ -28,6 +30,20 @@ function App() {
       )
     );
   }, [dispatch, activeCity.preview, savedCities]);
+
+  // Update favicon based on current weather
+  useEffect(() => {
+    if (document !== undefined) {
+      const favicon = document.getElementById('favicon');
+      console.log('favicon', favicon);
+
+      if (!!favicon) {
+        (
+          favicon as any
+        ).href = `https://openweathermap.org/img/wn/${activeCity.data?.current?.weather[0]?.icon}.png`;
+      }
+    }
+  }, [activeCity.data]);
 
   return <WeatherPage />;
 }
