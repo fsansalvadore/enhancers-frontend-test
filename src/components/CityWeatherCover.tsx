@@ -2,7 +2,11 @@ import styled, { css } from 'styled-components';
 import { selectActiveCity } from '../redux/features/app/appSlice';
 import { useAppSelector } from '../redux/hooks';
 import moment from 'moment';
-import { getCoverByCity, mapWeatherToBackground } from '../utils/helpers';
+import {
+  getCoverByCity,
+  getFormattedTemperature,
+  mapWeatherToBackground,
+} from '../utils/helpers';
 import { STATUS } from '../utils/constants';
 
 const Wrapper = styled.div<{ img?: string; isLoading?: boolean }>`
@@ -121,11 +125,7 @@ export const CityWeatherCover = () => {
         {!isLoading && !hasError && (
           <>
             <Temperature>
-              {activeCity.data?.current?.temp < 1 &&
-              activeCity.data?.current?.temp > -1
-                ? '0'
-                : activeCity.data?.current?.temp?.toFixed(0)}
-              °
+              {getFormattedTemperature(activeCity.data?.current?.temp)}
             </Temperature>
             <IconWrapper>
               {!!activeCity.data && (

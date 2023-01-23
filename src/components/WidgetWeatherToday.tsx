@@ -4,6 +4,7 @@ import { selectActiveCity } from '../redux/features/app/appSlice';
 import { useAppSelector } from '../redux/hooks';
 import styled from 'styled-components';
 import { WidgetTitle } from '../styles/shared';
+import { getFormattedTemperature } from '../utils/helpers';
 
 const Wrapper = styled.div`
   display: flex;
@@ -136,9 +137,7 @@ const HourTime = styled.div`
 
 const HourSection = ({ hour, isFirst }: { hour: any; isFirst: boolean }) => (
   <HourWrapper>
-    <HourTemp isFirst={isFirst}>
-      {hour.temp < 1 && hour.temp > -1 ? '0' : hour.temp?.toFixed(0)}°
-    </HourTemp>
+    <HourTemp isFirst={isFirst}>{getFormattedTemperature(hour.temp)}</HourTemp>
     <HourCenter isFirst={isFirst} />
     {!isFirst && (
       <HourTime>{moment(new Date(hour.dt * 1000)).format('h a')}</HourTime>

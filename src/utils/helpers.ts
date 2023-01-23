@@ -16,6 +16,9 @@ export const getOtherCitiesToShow = (cities: any, activeCity: any) => {
   return citiesToShow;
 };
 
+export const getFormattedTemperature = (temperature: number) =>
+  temperature < 1 && temperature > -1 ? '0°' : `${temperature?.toFixed(0)}°`;
+
 export const getCityPreviewData = async (city: SavedCity) => {
   const cityData = await axios.get(
     getCityWeatherEndpoint(city.coord.lat, city.coord.lon, true)

@@ -4,7 +4,10 @@ import { connect } from 'react-redux';
 import styled from 'styled-components';
 import { activeCitySelected } from '../redux/features/app/appSlice';
 import { useAppDispatch } from '../redux/hooks';
-import { mapWeatherToBackground } from '../utils/helpers';
+import {
+  getFormattedTemperature,
+  mapWeatherToBackground,
+} from '../utils/helpers';
 
 const CityCard = styled.button<{ bgGradient: string }>`
   height: 140px;
@@ -92,12 +95,7 @@ export const CityPreviewCard = ({ city }: { city: any }) => {
         />
       </ImageWrapper>
       <TempWrapper>
-        <Temperature>
-          {city.current?.temp < 1 && city.current?.temp > -1
-            ? '0'
-            : city.current?.temp?.toFixed(0)}
-          °
-        </Temperature>
+        <Temperature>{getFormattedTemperature(city.current?.temp)}</Temperature>
       </TempWrapper>
     </CityCard>
   );

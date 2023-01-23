@@ -5,6 +5,7 @@ import 'swiper/css/pagination';
 import styled from 'styled-components';
 import { useAppSelector } from '../redux/hooks';
 import { selectActiveCity } from '../redux/features/app/appSlice';
+import { getFormattedTemperature } from '../utils/helpers';
 
 const Wrapper = styled.div`
   height: 100%;
@@ -96,14 +97,14 @@ export const WidgetWeekWeather = () => {
           const weekDay = new Date(day.dt * 1000).toLocaleDateString('en', {
             weekday: 'long',
           });
-          const temperature = day.temp?.day?.toFixed(0);
+          const temperature = getFormattedTemperature(day.temp?.day);
           const icon = day.weather[0]?.icon;
           const iconDesc = day.weather[0]?.description;
 
           return (
             <SwiperSlide key={day.dt}>
               <Day>{weekDay}</Day>
-              <Temperature>{temperature}°</Temperature>
+              <Temperature>{temperature}</Temperature>
               <ImageWrapper>
                 {!!activeCity?.data?.current?.weather[0] && (
                   <img

@@ -6,6 +6,7 @@ import moment from 'moment';
 import styled from 'styled-components';
 import { selectActiveCity } from '../redux/features/app/appSlice';
 import { useAppSelector } from '../redux/hooks';
+import { getFormattedTemperature } from '../utils/helpers';
 
 const Wrapper = styled.div`
   height: 100%;
@@ -138,24 +139,19 @@ const Card = () => {
       </div>
       <div>
         <Temperature>
-          {activeCity?.data?.current?.temp?.toFixed(0)}°
+          {getFormattedTemperature(activeCity.data?.current?.temp)}
         </Temperature>
         <Text>{activeCity?.data?.current?.weather[0]?.description}</Text>
         <Text>
-          The high will be{' '}
-          {maxTemp < 1 && maxTemp > -1 ? '0' : maxTemp?.toFixed(0)}°C, the low
-          will be {minTemp < 1 && minTemp > -1 ? '0' : minTemp?.toFixed(0)}°C.
+          The high will be {getFormattedTemperature(maxTemp)}C, the low will be{' '}
+          {getFormattedTemperature(minTemp)}C.
         </Text>
         <Text>
           <span>Humidity: {activeCity?.data?.current.humidity}%</span>
           <span>UV: {activeCity?.data?.current.uvi}</span>
           <span>
             Dew point:{' '}
-            {activeCity.data?.current?.dew_point < 1 &&
-            activeCity.data?.current?.dew_point > -1
-              ? '0'
-              : activeCity.data?.current?.dew_point?.toFixed(0)}
-            °
+            {getFormattedTemperature(activeCity.data?.current?.dew_point)}
           </span>
         </Text>
       </div>
