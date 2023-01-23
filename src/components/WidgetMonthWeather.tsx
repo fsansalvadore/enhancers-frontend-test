@@ -111,6 +111,17 @@ const Card = () => {
   const day = moment()
     .tz(activeCity.data?.timezone ?? 'Europe/Rome')
     .format('ddd, D MMM');
+  const findMaxTemp = () => {
+    return Math.max(...activeCity.data.daily.map((day: any) => day.temp.max));
+  };
+
+  const findMinTemp = () => {
+    return Math.min(...activeCity.data.daily.map((day: any) => day.temp.min));
+  };
+
+  const maxTemp = findMaxTemp();
+  const minTemp = findMinTemp();
+  console.log('max, min', maxTemp, minTemp);
 
   return (
     <InnerCard>
@@ -130,7 +141,11 @@ const Card = () => {
           {activeCity?.data?.current?.temp?.toFixed(0)}°
         </Temperature>
         <Text>{activeCity?.data?.current?.weather[0]?.description}</Text>
-        <Text>The high will be 14°C, the low will be 8°C.</Text>
+        <Text>
+          The high will be{' '}
+          {maxTemp < 1 && maxTemp > -1 ? '0' : maxTemp?.toFixed(0)}°C, the low
+          will be {minTemp < 1 && minTemp > -1 ? '0' : minTemp?.toFixed(0)}°C.
+        </Text>
         <Text>
           <span>Humidity: {activeCity?.data?.current.humidity}%</span>
           <span>UV: {activeCity?.data?.current.uvi}</span>
