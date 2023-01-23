@@ -8,7 +8,7 @@ const StyledTabs = styled(Tabs)`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  filter: drop-shadow(5px 10px 20px rgba(0,0,0,0.17));
+  filter: drop-shadow(5px 10px 20px rgba(0, 0, 0, 0.17));
 `;
 const StyledTabList = styled(TabList)`
   height: 80px;
@@ -19,7 +19,7 @@ const StyledTabList = styled(TabList)`
 `;
 const StyledTab = styled(Tab)`
   display: flex;
-  color: #01175F;
+  color: #01175f;
   padding: 30px;
   justify-content: center;
   align-items: center;
@@ -32,10 +32,10 @@ const StyledTab = styled(Tab)`
   border: none;
   cursor: pointer;
   outline: none;
-  
+
   &.react-tabs__tab--selected {
     border-radius: 30px 30px 0 0;
-    background-color: #5374E7;
+    background-color: #5374e7;
     color: #fff;
   }
 `;
@@ -45,13 +45,13 @@ const StyledTabPanel = styled(TabPanel)`
   height: 100%;
   border-radius: 30px;
   color: #fff;
-  
+
   &.react-tabs__tab-panel--selected {
     display: block;
-    background: linear-gradient(0deg, #77B9F5 0%, #5374E7 100%);
+    background: linear-gradient(0deg, #77b9f5 0%, #5374e7 100%);
   }
   &.react-tabs__tab-panel--selected:first-of-type {
-    background: linear-gradient(0deg, #77B9F5 0%, #5374E7 100%);
+    background: linear-gradient(0deg, #77b9f5 0%, #5374e7 100%);
     border-radius: 0 30px 30px 30px;
   }
 `;
@@ -66,18 +66,18 @@ const PanelWrapper = styled.div`
 `;
 
 export const WidgetWeatherTabs = () => (
-    <StyledTabs>
-      <StyledTabList>
-        <StyledTab>This week</StyledTab>
-        <StyledTab>This month</StyledTab>
-      </StyledTabList>
-      <PanelWrapper>
-        <StyledTabPanel>
-          <WidgetWeekWeather />
-        </StyledTabPanel>
-        <StyledTabPanel>
-          <WidgetMonthWeather />
-        </StyledTabPanel>
-      </PanelWrapper>
-    </StyledTabs>
-  );
+  <StyledTabs>
+    <StyledTabList>
+      <StyledTab>This week</StyledTab>
+      <StyledTab>This month</StyledTab>
+    </StyledTabList>
+    <PanelWrapper>
+      <StyledTabPanel>
+        <WidgetWeekWeather />
+      </StyledTabPanel>
+      <StyledTabPanel>
+        <WidgetMonthWeather />
+      </StyledTabPanel>
+    </PanelWrapper>
+  </StyledTabs>
+);

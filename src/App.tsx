@@ -1,7 +1,11 @@
-
 import './App.css';
 import WeatherPage from './pages/WeatherPage';
-import { fetchActiveCityData, getCitiesPreviews, selectActiveCity, selectSavedCities } from './redux/features/app/appSlice';
+import {
+  fetchActiveCityData,
+  getCitiesPreviews,
+  selectActiveCity,
+  selectSavedCities,
+} from './redux/features/app/appSlice';
 import { useAppDispatch, useAppSelector } from './redux/hooks';
 import { useEffect } from 'react';
 import { SavedCity } from './utils/types';
@@ -12,21 +16,20 @@ function App() {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    dispatch(
-      getCitiesPreviews(savedCities)
-    );
-  }, [dispatch, savedCities])
+    dispatch(getCitiesPreviews(savedCities));
+  }, [dispatch, savedCities]);
 
   useEffect(() => {
     dispatch(
-      fetchActiveCityData(savedCities.find(city => city.name === activeCity.preview.name) as SavedCity)
-    )
-  }, [dispatch, activeCity.preview, savedCities])
+      fetchActiveCityData(
+        savedCities.find(
+          (city) => city.name === activeCity.preview.name
+        ) as SavedCity
+      )
+    );
+  }, [dispatch, activeCity.preview, savedCities]);
 
-  return (
-    <WeatherPage />
-  );
+  return <WeatherPage />;
 }
-
 
 export default App;

@@ -20,8 +20,8 @@ const Wrapper = styled.div`
 
   .swiper-slide {
     border-radius: 20px;
-    background-color: rgba(255,255,255,0.1);
-    box-shadow: 5px 10px 20px 0 rgba(0,0,0,0.17);
+    background-color: rgba(255, 255, 255, 0.1);
+    box-shadow: 5px 10px 20px 0 rgba(0, 0, 0, 0.17);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -51,26 +51,28 @@ const Wrapper = styled.div`
 const Day = styled.p`
   font-size: 22px;
   font-weight: 600;
-`
+`;
 
 const ImageWrapper = styled.div`
   width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
-`
+`;
 
 const Temperature = styled.p`
   font-size: 42px;
   font-weight: bold;
-`
+`;
 
 export const WidgetWeekWeather = () => {
-  const activeCity = useAppSelector(selectActiveCity)
+  const activeCity = useAppSelector(selectActiveCity);
 
   if (!activeCity.data) return null;
 
-  const {data: {daily: days}} = activeCity
+  const {
+    data: { daily: days },
+  } = activeCity;
 
   return (
     <Wrapper>
@@ -83,37 +85,37 @@ export const WidgetWeekWeather = () => {
         breakpoints={{
           620: {
             slidesPerView: 3,
-            slidesPerGroup: 3
+            slidesPerGroup: 3,
           },
         }}
         pagination={{
-          clickable: true
+          clickable: true,
         }}
       >
-        {
-          days?.slice(1,8)?.map((day: any) => {
-            const weekDay = new Date(day.dt * 1000).toLocaleDateString("en", { weekday: 'long' });
-            const temperature = day.temp?.day?.toFixed(0);
-            const icon = day.weather[0]?.icon;
-            const iconDesc = day.weather[0]?.description;
+        {days?.slice(1, 8)?.map((day: any) => {
+          const weekDay = new Date(day.dt * 1000).toLocaleDateString('en', {
+            weekday: 'long',
+          });
+          const temperature = day.temp?.day?.toFixed(0);
+          const icon = day.weather[0]?.icon;
+          const iconDesc = day.weather[0]?.description;
 
-            return (
+          return (
             <SwiperSlide key={day.dt}>
               <Day>{weekDay}</Day>
               <Temperature>{temperature}°</Temperature>
               <ImageWrapper>
-                {
-                  !!activeCity?.data?.current?.weather[0] && 
-                    <img
+                {!!activeCity?.data?.current?.weather[0] && (
+                  <img
                     src={`https://openweathermap.org/img/wn/${icon}@4x.png`}
                     alt={iconDesc}
-                    />
-                }
+                  />
+                )}
               </ImageWrapper>
             </SwiperSlide>
-          )})
-        }
+          );
+        })}
       </Swiper>
     </Wrapper>
   );
-}
+};

@@ -1,10 +1,7 @@
-import { connect } from 'react-redux'
+import { connect } from 'react-redux';
 import styled from 'styled-components';
-import tw from 'twin.macro'
-import {
-  selectActiveCity,
-  selectCities
-} from '../redux/features/app/appSlice';
+import tw from 'twin.macro';
+import { selectActiveCity, selectCities } from '../redux/features/app/appSlice';
 import { useAppSelector } from '../redux/hooks';
 import { STATUS } from '../utils/constants';
 import { getOtherCitiesToShow } from '../utils/helpers';
@@ -29,17 +26,17 @@ const ButtonWrapper = styled.div`
 `;
 
 const Button = tw.button`flex items-center gap-3 [color: #01175F] [font-size: 20px] [font-weight: 600]`;
-const CardsWrapper = tw.div`relative flex flex-col items-center h-auto w-full gap-3 md:gap-7`
+const CardsWrapper = tw.div`relative flex flex-col items-center h-auto w-full gap-3 md:gap-7`;
 
 export const CitiesNav = () => {
   const loadedCities = useAppSelector(selectCities);
   const activeCity = useAppSelector(selectActiveCity);
   const areCitiesLoading = loadedCities.status === STATUS.LOADING;
   const citiesToShow = getOtherCitiesToShow(loadedCities, activeCity);
-  
+
   const handleAddCity = () => {
-    alert("Aggiungi nuova città");
-  }
+    alert('Aggiungi nuova città');
+  };
 
   return (
     <Wrapper>
@@ -49,18 +46,20 @@ export const CitiesNav = () => {
         </Button>
       </ButtonWrapper>
       <CardsWrapper>
-        {
-          areCitiesLoading
-          ? <div>empty state</div>
-          : citiesToShow?.map((city: any) => <CityPreviewCard key={city.name} city={city} />)
-        }
+        {areCitiesLoading ? (
+          <div>empty state</div>
+        ) : (
+          citiesToShow?.map((city: any) => (
+            <CityPreviewCard key={city.name} city={city} />
+          ))
+        )}
       </CardsWrapper>
     </Wrapper>
-  )
-}
+  );
+};
 
-const mapStateToProps = (_state: any) => ({})
+const mapStateToProps = (_state: any) => ({});
 
-const mapDispatchToProps = {}
+const mapDispatchToProps = {};
 
-export default connect(mapStateToProps, mapDispatchToProps)(CitiesNav)
+export default connect(mapStateToProps, mapDispatchToProps)(CitiesNav);

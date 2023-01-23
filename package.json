@@ -45,6 +45,11 @@
       "react-app/jest"
     ]
   },
+  "prettier": {
+    "trailingComma": "es5",
+    "tabWidth": 2,
+    "singleQuote": true
+  },
   "browserslist": {
     "production": [
       ">0.2%",
@@ -58,6 +63,7 @@
     ]
   },
   "devDependencies": {
-    "@types/styled-components": "^5.1.26"
+    "@types/styled-components": "^5.1.26",
+    "prettier": "2.8.3"
   }
 }

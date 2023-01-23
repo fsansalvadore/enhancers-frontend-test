@@ -6,7 +6,7 @@ import {
   WidgetLocalization,
   WidgetSearch,
   WidgetWeatherTabs,
-  WidgetWeatherToday
+  WidgetWeatherToday,
 } from '../components';
 
 // NOTA:
@@ -23,10 +23,10 @@ const MainWrapper = styled.div`
   > div:last-of-type {
     ${tw`w-full md:col-span-4`}
   }
-`
-const SelectedCityContainer = tw.div`flex flex-col gap-4 md:gap-12`
-const WidgetsContainer = tw.div`order-first md:order-last flex flex-col gap-4 md:gap-12`
-const SidebarSecondaryWidgets = tw.div`flex flex-col lg:[height:465px] gap-4 md:gap-12`
+`;
+const SelectedCityContainer = tw.div`flex flex-col gap-4 md:gap-12`;
+const WidgetsContainer = tw.div`order-first md:order-last flex flex-col gap-4 md:gap-12`;
+const SidebarSecondaryWidgets = tw.div`flex flex-col lg:[height:465px] gap-4 md:gap-12`;
 const CityWeatherWidgetsWrapper = styled.div`
   ${tw`relative w-full md:[height:465px] flex flex-col xl:grid xl:grid-cols-8 gap-12`}
 
@@ -37,27 +37,27 @@ const CityWeatherWidgetsWrapper = styled.div`
   > div:last-of-type {
     ${tw`w-full xl:col-span-5`}
   }
-`
+`;
 
 function WeatherPage() {
   return (
     <MainWrapper>
       <SelectedCityContainer>
-        <CityWeatherCover/>
+        <CityWeatherCover />
         <CityWeatherWidgetsWrapper>
           <WidgetWeatherToday />
           <WidgetWeatherTabs />
         </CityWeatherWidgetsWrapper>
       </SelectedCityContainer>
       <WidgetsContainer>
-        <CitiesNav/>
+        <CitiesNav />
         <SidebarSecondaryWidgets>
           <WidgetSearch />
           <WidgetLocalization />
         </SidebarSecondaryWidgets>
       </WidgetsContainer>
     </MainWrapper>
-  )
+  );
 }
 
 export default WeatherPage;

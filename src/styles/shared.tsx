@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 export const WidgetTitle = styled.div`
   display: flex;
-  color: #01175F;
+  color: #01175f;
   padding: 20px;
   height: 80px;
   justify-content: center;
@@ -12,4 +12,4 @@ export const WidgetTitle = styled.div`
   font-weight: 600;
   letter-spacing: 0;
   line-height: 42px;
-`
+`;

@@ -1,3 +1,3 @@
 # Enhancers Frontend Test
 
-A React weather app. 
+A React weather app.

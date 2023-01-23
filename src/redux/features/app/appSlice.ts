@@ -5,16 +5,20 @@ import { RootState } from '../../store';
 import { initialState, STATUS } from '../../../utils/constants';
 import { SavedCity } from '../../../utils/types';
 import { getCityPreviewData } from '../../../utils/helpers';
+import { getCityWeatherEndpoint } from '../../../utils/endpoints';
 
 export const getCitiesPreviews = createAsyncThunk(
   'app/getCitiesPreviews',
-  async (savedCities: SavedCity[]) => Promise.all(savedCities.map((savedCity) => getCityPreviewData(savedCity)))
+  async (savedCities: SavedCity[]) =>
+    Promise.all(savedCities.map((savedCity) => getCityPreviewData(savedCity)))
 );
 
 export const fetchActiveCityData = createAsyncThunk(
   'app/fetchCity',
   async (city: SavedCity) => {
-    const activeCity = await axios.get(`https://api.openweathermap.org/data/3.0/onecall?lat=${city.coord.lat}&lon=${city.coord.lon}&units=metric&appid=${process.env.REACT_APP_OPENWEATHER_API}`)
+    const activeCity = await axios.get(
+      getCityWeatherEndpoint(city.coord.lat, city.coord.lon)
+    );
     return activeCity.data;
   }
 );
@@ -51,7 +55,7 @@ export const appSlice = createSlice({
       })
       .addCase(fetchActiveCityData.rejected, (state) => {
         state.activeCity.status = STATUS.FAILED;
-      })
+      });
   },
 });
 

@@ -1,4 +1,4 @@
-import { SAVED_CITIES_NAMES, STATUS } from "./constants";
+import { SAVED_CITIES_NAMES, STATUS } from './constants';
 
 export interface AppState {
   savedCities: SavedCity[];
@@ -19,7 +19,7 @@ export interface SavedCity {
   coord: {
     lat: string;
     lon: string;
-  }
+  };
 }
 
 export type StatusType = STATUS;
