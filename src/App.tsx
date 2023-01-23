@@ -35,7 +35,6 @@ function App() {
   useEffect(() => {
     if (document !== undefined) {
       const favicon = document.getElementById('favicon');
-      console.log('favicon', favicon);
 
       if (!!favicon) {
         (

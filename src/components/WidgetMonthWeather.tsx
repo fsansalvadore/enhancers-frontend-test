@@ -6,7 +6,11 @@ import moment from 'moment';
 import styled from 'styled-components';
 import { selectActiveCity } from '../redux/features/app/appSlice';
 import { useAppSelector } from '../redux/hooks';
-import { getFormattedTemperature } from '../utils/helpers';
+import {
+  findMaxTempInDays,
+  findMinTempInDays,
+  getFormattedTemperature,
+} from '../utils/helpers';
 
 const Wrapper = styled.div`
   height: 100%;
@@ -112,17 +116,8 @@ const Card = () => {
   const day = moment()
     .tz(activeCity.data?.timezone ?? 'Europe/Rome')
     .format('ddd, D MMM');
-  const findMaxTemp = () => {
-    return Math.max(...activeCity.data.daily.map((day: any) => day.temp.max));
-  };
-
-  const findMinTemp = () => {
-    return Math.min(...activeCity.data.daily.map((day: any) => day.temp.min));
-  };
-
-  const maxTemp = findMaxTemp();
-  const minTemp = findMinTemp();
-  console.log('max, min', maxTemp, minTemp);
+  const maxTemp = findMaxTempInDays(activeCity.data.daily);
+  const minTemp = findMinTempInDays(activeCity.data.daily);
 
   return (
     <InnerCard>

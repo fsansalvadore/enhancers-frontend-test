@@ -41,6 +41,14 @@ export const getCoverByCity = (name: SAVED_CITIES_NAMES) => {
   }
 };
 
+export const findMaxTempInDays = (days: any[]) => {
+  return Math.max(...days.map((day: any) => day.temp.max));
+};
+
+export const findMinTempInDays = (days: any[]) => {
+  return Math.min(...days.map((day: any) => day.temp.min));
+};
+
 // https://openweathermap.org/weather-conditions
 export const mapWeatherToBackground = (id: number) => {
   switch (String(id)[0]) {
