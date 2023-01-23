@@ -101,6 +101,7 @@ const WeatherText = styled.p`
 export const CityWeatherCover = () => {
   const activeCity = useAppSelector(selectActiveCity);
   const isLoading = activeCity.status === STATUS.LOADING;
+  const hasError = activeCity.status === STATUS.FAILED;
   const day = moment().tz(activeCity.data?.timezone ?? "Europe/Rome").format("dddd D, MMMM");
   const bgImg = getCoverByCity(activeCity.preview.name);
   const bgGradient = mapWeatherToBackground(activeCity?.data?.current?.weather[0]?.id);
@@ -109,7 +110,7 @@ export const CityWeatherCover = () => {
     <Wrapper isLoading={isLoading}>
       <SideWidget bgGradient={bgGradient}>
         {
-          !isLoading && (
+          !isLoading && !hasError && (
           <>
             <Temperature>
               {activeCity.data?.current?.temp < 1 && activeCity.data?.current?.temp > -1 ? "0" : activeCity.data?.current?.temp?.toFixed(0)}°
@@ -120,19 +121,27 @@ export const CityWeatherCover = () => {
           </>
         )}
       </SideWidget>
-      <CardWrapper img={bgImg}>
-        <CardContent>
-          <CardTitle>
-            {activeCity.preview?.name}
-          </CardTitle>
-          <Date>
-            {day}
-          </Date>
-          <WeatherText>
-            {activeCity.data?.current?.weather[0]?.main}
-          </WeatherText>
-        </CardContent>
-      </CardWrapper>
+      {
+        !hasError
+        ? (
+          <CardWrapper img={bgImg}>
+            <CardContent>
+              <CardTitle>
+                {activeCity.preview?.name}
+              </CardTitle>
+              <Date>
+                {day}
+              </Date>
+              <WeatherText>
+                {activeCity.data?.current?.weather[0]?.main}
+              </WeatherText>
+            </CardContent>
+          </CardWrapper>
+          ) : <CardWrapper>
+            <CardContent>
+              <p>Error</p>
+            </CardContent>
+            </CardWrapper>}
     </Wrapper>
   )
 }
