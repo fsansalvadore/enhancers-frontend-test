@@ -1,4 +1,3 @@
-import { connect } from 'react-redux';
 import styled from 'styled-components';
 import tw from 'twin.macro';
 import { selectActiveCity, selectCities } from '../redux/features/app/appSlice';
@@ -57,9 +56,3 @@ export const CitiesNav = () => {
     </Wrapper>
   );
 };
-
-const mapStateToProps = (_state: any) => ({});
-
-const mapDispatchToProps = {};
-
-export default connect(mapStateToProps, mapDispatchToProps)(CitiesNav);

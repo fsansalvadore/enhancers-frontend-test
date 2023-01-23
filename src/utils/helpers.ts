@@ -3,6 +3,7 @@ import { SavedCity } from './types';
 import axios from 'axios';
 import { getCityWeatherEndpoint } from './endpoints';
 
+// Get 2 other cities (not active)
 export const getOtherCitiesToShow = (cities: any, activeCity: any) => {
   const citiesToShow = cities.data
     ?.filter((city: any) => {
@@ -16,6 +17,8 @@ export const getOtherCitiesToShow = (cities: any, activeCity: any) => {
   return citiesToShow;
 };
 
+// Sets temperature with °
+// If temperature is -0.3, set 0
 export const getFormattedTemperature = (temperature: number) =>
   temperature < 1 && temperature > -1 ? '0°' : `${temperature?.toFixed(0)}°`;
 
@@ -38,6 +41,7 @@ export const getCoverByCity = (name: SAVED_CITIES_NAMES) => {
   }
 };
 
+// https://openweathermap.org/weather-conditions
 export const mapWeatherToBackground = (id: number) => {
   switch (String(id)[0]) {
     // Group 2xx: Thunderstorm

@@ -4,6 +4,6 @@ export { CityWeatherCover } from './CityWeatherCover';
 export { WidgetLocalization } from './WidgetLocalization';
 export { WidgetMonthWeather } from './WidgetMonthWeather';
 export { WidgetSearch } from './WidgetSearch';
-export { WidgetWeatherToday } from './WidgetWeatherToday';
 export { WidgetWeatherTabs } from './WidgetWeatherTabs';
+export { WidgetWeatherToday } from './WidgetWeatherToday';
 export { WidgetWeekWeather } from './WidgetWeekWeather';

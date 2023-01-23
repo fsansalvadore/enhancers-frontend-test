@@ -158,5 +158,3 @@ export const CityWeatherCover = () => {
     </Wrapper>
   );
 };
-
-export default CityWeatherCover;

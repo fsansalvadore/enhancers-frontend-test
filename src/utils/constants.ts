@@ -12,6 +12,7 @@ export enum STATUS {
   FAILED = 'failed',
 }
 
+// These "saved" cities should come from DB
 export const SAVED_CITIES = {
   [SAVED_CITIES_NAMES.TURIN]: {
     name: SAVED_CITIES_NAMES.TURIN,

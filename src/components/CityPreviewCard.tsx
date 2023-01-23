@@ -1,6 +1,5 @@
 import 'moment-timezone';
 import moment from 'moment';
-import { connect } from 'react-redux';
 import styled from 'styled-components';
 import { activeCitySelected } from '../redux/features/app/appSlice';
 import { useAppDispatch } from '../redux/hooks';
@@ -100,9 +99,3 @@ export const CityPreviewCard = ({ city }: { city: any }) => {
     </CityCard>
   );
 };
-
-const mapStateToProps = (_state: any) => ({});
-
-const mapDispatchToProps = {};
-
-export default connect(mapStateToProps, mapDispatchToProps)(CityPreviewCard);
