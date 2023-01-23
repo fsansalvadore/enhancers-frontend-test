@@ -20,11 +20,11 @@ const StyledTabList = styled(TabList)`
 const StyledTab = styled(Tab)`
   display: flex;
   color: #01175f;
-  padding: 30px;
+  padding: 20px;
   justify-content: center;
   align-items: center;
   text-align: center;
-  font-size: 28px;
+  font-size: 21px;
   font-weight: 600;
   letter-spacing: 0;
   line-height: 42px;
@@ -37,6 +37,11 @@ const StyledTab = styled(Tab)`
     border-radius: 30px 30px 0 0;
     background-color: #5374e7;
     color: #fff;
+  }
+
+  @media (min-width: 768px) {
+    font-size: 28px;
+    padding: 30px;
   }
 `;
 const StyledTabPanel = styled(TabPanel)`
